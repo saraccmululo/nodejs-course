@@ -12,14 +12,25 @@ const recipeJSON =
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let data;
+
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", {recipe: data});
 });
 
+//Step 3: Write your code here to make this behave like the solution website.
 app.post("/recipe", (req, res) => {
-  //Step 3: Write your code here to make this behave like the solution website.
-  //Step 4: Add code to views/index.ejs to use the recieved recipe object.
+  if (req.body.choice === "chicken") {
+    data = JSON.parse(recipeJSON)[0];
+  } else if (req.body.choice === "beef") {
+    data=JSON.parse(recipeJSON)[1];
+  } else {
+    data=JSON.parse(recipeJSON)[2];
+  }
+  res.redirect("/");
 });
+
+//Step 4: Add code to views/index.ejs to use the recieved recipe object.
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
